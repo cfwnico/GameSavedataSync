@@ -33,6 +33,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         cloud_path = config_dict["cloud_path"]
         self.cloud_path_label.setText(cloud_path)
 
+    def init_userdata(self):
+        pass
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

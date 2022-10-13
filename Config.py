@@ -24,39 +24,42 @@ class UserData:
     def __init__(self, data_filepath) -> None:
         self.data_filepath = data_filepath
         with open(self.data_filepath, "r", encoding="utf-8") as f:
-            self._gamedata_dict: dict = json.load(f)
+            self._userdata_dict: dict = json.load(f)
 
-    def get_game_list(self) -> list:
-        game_list = []
-        for i in self._gamedata_dict.keys():
-            game_list.append(i)
-        return game_list
+    def get_game_savepath_list(self) -> list:
+        game_savepath_list = []
+        for i in self._userdata_dict.keys():
+            game_savepath_list.append(i)
+        return game_savepath_list
 
-    def get_game_info(self, game_name: str) -> dict:
-        if game_name in self._gamedata_dict:
-            return self._gamedata_dict[game_name]
+    def get_game_sync_info(self, game_savepath: str) -> dict:
+        if game_savepath in self._userdata_dict:
+            return self._userdata_dict[game_savepath]
+
+    def get_game_name_sort_dict(self) -> dict:
+        pass
 
     def save_game_data(self, game_name: str, key: str, value: str):
-        if game_name in self._gamedata_dict:
-            game_data = self._gamedata_dict[game_name]
+        if game_name in self._userdata_dict:
+            game_data = self._userdata_dict[game_name]
             game_data[key] = value
             with open(self.data_filepath, "w", encoding="utf-8") as f:
-                json.dump(self._gamedata_dict, f, ensure_ascii=False)
+                json.dump(self._userdata_dict, f, ensure_ascii=False)
 
     def create_game(self, game_name: str, game_info_dict: dict):
-        if game_name in self._gamedata_dict:
+        if game_name in self._userdata_dict:
             return
-        self._gamedata_dict[game_name] = game_info_dict
+        self._userdata_dict[game_name] = game_info_dict
         with open(self.data_filepath, "w", encoding="utf-8") as f:
-            json.dump(self._gamedata_dict, f, ensure_ascii=False)
+            json.dump(self._userdata_dict, f, ensure_ascii=False)
 
     def del_game(self, game_name: str):
-        self._gamedata_dict.pop(game_name)
+        self._userdata_dict.pop(game_name)
         with open(self.data_filepath, "w", encoding="utf-8") as f:
-            json.dump(self._gamedata_dict, f, ensure_ascii=False)
+            json.dump(self._userdata_dict, f, ensure_ascii=False)
 
     def sort_game(self):
-        a1 = sorted(self._gamedata_dict.items(), key=lambda x: x[0])
-        self._gamedata_dict = dict(a1)
+        a1 = sorted(self._userdata_dict.items(), key=lambda x: x[0])
+        self._userdata_dict = dict(a1)
         with open(self.data_filepath, "w", encoding="utf-8") as f:
-            json.dump(self._gamedata_dict, f, ensure_ascii=False)
+            json.dump(self._userdata_dict, f, ensure_ascii=False)
