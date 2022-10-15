@@ -1,7 +1,14 @@
 {
-    "game_save_path": {
+    "灵感满溢的甜蜜创想": {
         "index": 0,
-        "game_name": "game_name_str",
-        "create_time": "time"
+        "game_name": "灵感满溢的甜蜜创想",
+        "savedata_path": "D:\\Game\\灵感满溢的甜蜜创想\\savedata_cn",
+        "create_time": "create_time_str0"
+    },
+    "game_name2": {
+        "index": 1,
+        "game_name": "game_name1",
+        "savedata_path": "savedata_path_str1",
+        "create_time": "create_time_str1"
     }
 }

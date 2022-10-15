@@ -26,15 +26,16 @@ class UserData:
         with open(self.data_filepath, "r", encoding="utf-8") as f:
             self._userdata_dict: dict = json.load(f)
 
-    def get_game_savepath_list(self) -> list:
-        game_savepath_list = []
+    def get_gamename_list(self) -> list[str]:
+        gamename_list = []
         for i in self._userdata_dict.keys():
-            game_savepath_list.append(i)
-        return game_savepath_list
+            gamename_list.append(i)
+        return gamename_list
 
-    def get_game_sync_info(self, game_savepath: str) -> dict:
-        if game_savepath in self._userdata_dict:
-            return self._userdata_dict[game_savepath]
+    def get_savedata_sync_info(self, game_name: str) -> dict:
+        """give arg "game name" return the game savedata sync info."""
+        if game_name in self._userdata_dict:
+            return self._userdata_dict[game_name]
 
     def get_game_name_sort_dict(self) -> dict:
         pass
