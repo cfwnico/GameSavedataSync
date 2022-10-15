@@ -27,7 +27,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def setup_connect(self):
         self.sync_listwidget.currentItemChanged.connect(self.change_current_item)
-        self.open_cloudata_btn.clicked.connect(self.open_cloudata_path)
+        self.check_sync_btn.clicked.connect(self.check_sync_func)
+        self.open_cloudata_btn.clicked.connect(self.open_cloudata_path_func)
         # self.gamelist_widget.itemDoubleClicked.connect(self.attributes)
         # self.add_game_btn.clicked.connect(self.add_game)
 
@@ -56,37 +57,54 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for i in os.scandir(cloudata_path):
             if i.is_dir():
                 self.cloudata_path_label.setText(i.path)
-        self.load_sync_info(self.userdata_obj.get_savedata_sync_info(game_name))
+        re = self.load_sync_info(self.userdata_obj.get_savedata_sync_info(game_name))
+        if re is False:
+            item.setForeground(Qt.red)
 
     def load_sync_info(self, sync_info: dict):
         """read game sync info from userdata.json and set this in label text."""
         if sync_info is None:
             self.gamename_label.setText("未找到该云存档对应的信息")
             self.savepath_label.setText("未找到该云存档对应的信息")
+            return False
         else:
-            # set text in label
+            # set text in label.
+            # set game name.
             game_name = sync_info["game_name"]
             self.gamename_label.setText(game_name)
+            # set game icon.
+            icon_path = "Image/" + game_name
+            if os.path.exists(icon_path):
+                self.icon_label.setPixmap(QPixmap(icon_path))
+            # set savedata path text.
             savedata_path = os.path.normpath(sync_info["savedata_path"])
             self.savepath_label.setText(savedata_path)
+            # set create time text.
             create_time = sync_info["create_time"]
             self.create_time_label.setText(create_time)
-            # check sync status
+            # check sync status and set text.
             cloudata_path = self.cloudata_path_label.text()
             result = check_sync_status(savedata_path, cloudata_path)
             if isinstance(result, dict):
-                stuts_str = result["status"] + " " + result["time"]
+                stuts_str = result["status"] + "\n" + result["time"]
             elif result is False:
                 # savedata path is not sym link.
-                stuts_str = ""
+                stuts_str = "本地存档未与云存档建立链接"
             elif result is None:
                 # savedata path not exists.
                 # savedata path is a file.
                 # error path.
-                stuts_str = ""
+                stuts_str = "本地存档路径错误"
             self.sync_status_label.setText(stuts_str)
+            return True
 
-    def open_cloudata_path(self):
+    def check_sync_func(self):
+        count = self.sync_listwidget.count()
+        for i in range(count):
+            self.sync_listwidget.setCurrentRow(i)
+        self.sync_listwidget.setCurrentRow(0)
+
+    def open_cloudata_path_func(self):
         """open cloudata path with explorer."""
         path = self.cloudata_path_label.text()
         if os.path.exists(path):

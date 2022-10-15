@@ -1,14 +1,17 @@
 {
     "灵感满溢的甜蜜创想": {
-        "index": 0,
         "game_name": "灵感满溢的甜蜜创想",
         "savedata_path": "D:\\Game\\灵感满溢的甜蜜创想\\savedata_cn",
         "create_time": "create_time_str0"
     },
-    "game_name2": {
-        "index": 1,
-        "game_name": "game_name1",
-        "savedata_path": "savedata_path_str1",
+    "絆きらめく恋いろは": {
+        "game_name": "絆きらめく恋いろは",
+        "savedata_path": "C:\\Users\\cfw\\Documents\\CRYSTALiA",
+        "create_time": "create_time_str1"
+    },
+    "Summer Pockets": {
+        "game_name": "Summer Pockets",
+        "savedata_path": "D:\\Game\\Summer Pockets\\savedata_zh",
         "create_time": "create_time_str1"
     }
 }
