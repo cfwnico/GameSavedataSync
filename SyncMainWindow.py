@@ -9,10 +9,11 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
+from AddNewSyncW import AddNewSyncWindow
 from Common import messagebox
 from Config import Config, UserData
-from UI.ui_MainW import Ui_MainWindow
 from SyncManage import check_sync_status
+from UI.ui_MainW import Ui_MainWindow
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -27,10 +28,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def setup_connect(self):
         self.sync_listwidget.currentItemChanged.connect(self.change_current_item)
-        self.check_sync_btn.clicked.connect(self.check_sync_func)
-        self.open_cloudata_btn.clicked.connect(self.open_cloudata_path_func)
         # self.gamelist_widget.itemDoubleClicked.connect(self.attributes)
-        # self.add_game_btn.clicked.connect(self.add_game)
+        self.create_sync_btn.clicked.connect(self.create_sync_func)
+        self.fix_sync_btn.clicked.connect(self.fix_sync_func)
+        self.del_sync_btn.clicked.connect(self.del_sync_func)
+        self.check_sync_btn.clicked.connect(self.check_sync_func)
+        self.open_cloud_btn.clicked.connect(self.open_cloud_func)
+        self.edit_cloud_btn.clicked.connect(self.edit_cloud_func)
+        self.open_cloudata_btn.clicked.connect(self.open_cloudata_path_func)
+        self.edit_savedata_btn.clicked.connect(self.edit_savedata_func)
+        self.about_btn.clicked.connect(self.about_func)
 
     def init_config(self):
         """load config.json data."""
@@ -98,11 +105,58 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.sync_status_label.setText(stuts_str)
             return True
 
+    def create_sync_func(self):
+        AddNewSyncWindow().exec()
+
+    def fix_sync_func(self):
+        pass
+
+    def del_sync_func(self):
+        messagebox(self, QMessageBox.Critical, "警告", "你即将取消云存档同步！")
+
     def check_sync_func(self):
-        count = self.sync_listwidget.count()
-        for i in range(count):
-            self.sync_listwidget.setCurrentRow(i)
-        self.sync_listwidget.setCurrentRow(0)
+        req = messagebox(
+            self,
+            QMessageBox.Information,
+            "提示",
+            "即将开始检查所有的游戏存档同步信息，如果游戏存档较多可能会花费较长时间。",
+            "yesno",
+        )
+        if req == 0:
+            count = self.sync_listwidget.count()
+            for i in range(count):
+                self.sync_listwidget.setCurrentRow(i)
+            self.sync_listwidget.setCurrentRow(0)
+
+    def about_func(self):
+        with open(r"Data\\ReadMe.txt", encoding="utf8") as text:
+            messagebox(self, QMessageBox.Information, "关于...", text.read())
+
+    def open_cloud_func(self):
+        path = self.cloud_path_label.text()
+        if os.path.exists(path):
+            os.startfile(path)
+        else:
+            messagebox(self, QMessageBox.Critical, "错误", "同步文件夹不存在，请检查路径。")
+
+    def edit_cloud_func(self):
+        req = messagebox(
+            self, QMessageBox.Warning, "警告", "修改同步文件夹不会改变任何已存在的同步链接！", "yesno"
+        )
+        if req == 0:  # OK scene
+            new_cloud_path = QFileDialog.getExistingDirectory(
+                self, "请选择游戏文件夹...", self.cloud_path_label.text()
+            )
+            if new_cloud_path == "":
+                return
+            new_cloud_path = os.path.normpath(new_cloud_path)
+            self.cloud_path_label.setText(new_cloud_path)
+            self.config_obj.save_config("cloud_path", new_cloud_path)
+        elif req == 1:  # Cancel scene
+            return
+
+    def edit_savedata_func(self):
+        pass
 
     def open_cloudata_path_func(self):
         """open cloudata path with explorer."""
@@ -110,7 +164,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if os.path.exists(path):
             os.startfile(path)
         else:
-            messagebox(self, QMessageBox.Critical, "错误!", "该文件夹不存在!")
+            messagebox(self, QMessageBox.Critical, "错误", "云存个档不存在，请检查路径。")
 
 
 if __name__ == "__main__":

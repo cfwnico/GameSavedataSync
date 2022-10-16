@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'MainWHQPnCb.ui'
+## Form generated from reading UI file 'MainWdniYbT.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.2
 ##
@@ -100,17 +100,24 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.cloud_path_label)
 
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer)
+
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.open_cloud_btn = QPushButton(self.centralwidget)
         self.open_cloud_btn.setObjectName(u"open_cloud_btn")
-        self.open_cloud_btn.setMaximumSize(QSize(64, 16777215))
 
-        self.horizontalLayout_2.addWidget(self.open_cloud_btn)
+        self.horizontalLayout_3.addWidget(self.open_cloud_btn)
 
-        self.pushButton_8 = QPushButton(self.centralwidget)
-        self.pushButton_8.setObjectName(u"pushButton_8")
-        self.pushButton_8.setMaximumSize(QSize(64, 16777215))
+        self.edit_cloud_btn = QPushButton(self.centralwidget)
+        self.edit_cloud_btn.setObjectName(u"edit_cloud_btn")
 
-        self.horizontalLayout_2.addWidget(self.pushButton_8)
+        self.horizontalLayout_3.addWidget(self.edit_cloud_btn)
+
+
+        self.horizontalLayout_2.addLayout(self.horizontalLayout_3)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
@@ -297,8 +304,8 @@ class Ui_MainWindow(object):
         self.serach_btn.setText(QCoreApplication.translate("MainWindow", u"\u641c\u7d22", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"\u540c\u6b65\u6587\u4ef6\u5939\uff1a", None))
         self.cloud_path_label.setText(QCoreApplication.translate("MainWindow", u"path", None))
-        self.open_cloud_btn.setText(QCoreApplication.translate("MainWindow", u"\u6253\u5f00", None))
-        self.pushButton_8.setText(QCoreApplication.translate("MainWindow", u"\u6d4f\u89c8", None))
+        self.open_cloud_btn.setText(QCoreApplication.translate("MainWindow", u"\u6253\u5f00\u540c\u6b65\u6587\u4ef6\u5939", None))
+        self.edit_cloud_btn.setText(QCoreApplication.translate("MainWindow", u"\u4fee\u6539\u540c\u6b65\u6587\u4ef6\u5939", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"\u540c\u6b65\u72b6\u6001\uff1a", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"\u4e91\u5b58\u6863\u6587\u4ef6\u5939\uff1a", None))
         self.sync_status_label.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
