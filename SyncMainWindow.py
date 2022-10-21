@@ -106,7 +106,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return True
 
     def create_sync_func(self):
-        AddNewSyncWindow().exec()
+        AddNewSyncWindow(self.cloud_path_label.text()).exec()
 
     def fix_sync_func(self):
         pass

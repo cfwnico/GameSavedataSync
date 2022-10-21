@@ -40,17 +40,23 @@ class UserData:
     def get_game_name_sort_dict(self) -> dict:
         pass
 
-    def save_game_data(self, game_name: str, key: str, value: str):
+    def save_sync_info(self, game_name: str, key: str, value: str):
         if game_name in self._userdata_dict:
             game_data = self._userdata_dict[game_name]
             game_data[key] = value
             with open(self.data_filepath, "w", encoding="utf-8") as f:
                 json.dump(self._userdata_dict, f, ensure_ascii=False)
 
-    def create_game(self, game_name: str, game_info_dict: dict):
+    def check_game_name(self, game_name: str):
+        """check game name can use"""
         if game_name in self._userdata_dict:
-            return
-        self._userdata_dict[game_name] = game_info_dict
+            return False
+        else:
+            return True
+
+    def create_sync_info(self, game_name: str, sync_info_dict: dict):
+        """when create new game savedata sync then use tihs func"""
+        self._userdata_dict[game_name] = sync_info_dict
         with open(self.data_filepath, "w", encoding="utf-8") as f:
             json.dump(self._userdata_dict, f, ensure_ascii=False)
 
