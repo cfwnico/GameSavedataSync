@@ -7,6 +7,7 @@ from time import localtime, strftime
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
+from datetime import datetime
 
 
 def messagebox(parent, icon: QIcon, title: str, text: str, button="yes", buttons=None):
@@ -92,3 +93,10 @@ def get_edit_time(path: str):
     else:
         fromat_time = "获取最新修改日期失败！"
     return fromat_time
+
+
+def get_now_time():
+    """[ 返回当前时间，格式：年-月-日 时:分:秒 ]"""
+    now_time = datetime.now()
+    date = now_time.strftime("%Y-%m-%d %H:%M:%S")
+    return date
