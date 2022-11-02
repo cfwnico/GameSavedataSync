@@ -9,6 +9,7 @@ from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
 from Common import get_edit_time, path_is_symlink
+import traceback
 
 
 def check_sync_status(local_savepath: str, ncd_savepath: str):
@@ -65,12 +66,14 @@ def create_sync(local_savepath: str, ncd_gamepath: str):
     # 创建符号链接,需要UAC提权
     try:
         os.symlink(ncd_savepath, local_savepath, True)
-    except:
-        if not os.path.exists(local_savepath):
-            os.makedirs(local_savepath)
-        shutil.move(ncd_savepath, os.path.split(local_savepath)[0])
+    except Exception:
+        # 该变量为存档文件夹的上级目录
+        tag_path = os.path.split(local_savepath)[0]
+        if not os.path.exists(tag_path):
+            os.makedirs(tag_path)
+        shutil.move(ncd_savepath, tag_path)
         shutil.rmtree(ncd_gamepath)
-        return "创建符号连接失败,请检查是否管理员权限运行!"
+        return "创建符号连接失败,请检查是否管理员权限运行!\n" + traceback.format_exc()
     return True
 
 

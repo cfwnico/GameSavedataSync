@@ -7,6 +7,7 @@ from Common import messagebox, get_now_time
 import os
 from SyncManage import create_sync
 from Config import UserData
+import traceback
 
 
 class AddNewSyncWindow(QDialog, Ui_Dialog):
@@ -48,7 +49,7 @@ class AddNewSyncWindow(QDialog, Ui_Dialog):
         # need add code for process game icon...
         ncd_datapath = os.path.join(self.cloud_path, game_name)
         result = create_sync(local_savepath, ncd_datapath)
-        if result:
+        if result is True:
             sync_info_dict = {
                 "game_name": game_name,
                 "savedata_path": local_savepath,
