@@ -51,6 +51,7 @@ def check_sync_status(local_savepath: str, ncd_savepath: str):
 
 
 def create_sync(local_savepath: str, ncd_gamepath: str):
+    # local_savepath:such as:D:\game\game1\savedatafolder
     # ncd_gamepath:such as:D:\cfwcloud\SaveDataSync\Summer Pockets
     # 安全起见再次检查合法性
     if not os.path.exists(local_savepath):
@@ -83,13 +84,8 @@ def del_sync(local_savepath: str, ncd_gamepath: str):
         ncd_savepath = os.path.join(ncd_gamepath, base_name)
         os.remove(local_savepath)
         shutil.copytree(ncd_savepath, local_savepath)
-        # 备份存档防止丢失
-        game_name = os.path.basename(ncd_gamepath)
-        backup_path = os.path.join("backup", game_name)
-        shutil.copytree(ncd_savepath, backup_path)
         # 删除云端存档
         shutil.rmtree(ncd_gamepath)
-        shutil.rmtree("backup")
         return True
     except Exception:
         return False

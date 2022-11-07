@@ -2,8 +2,6 @@
 # 2022.10.13
 import os
 import sys
-import time
-from glob import glob
 
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -12,7 +10,7 @@ from PySide6.QtWidgets import *
 from AddNewSyncW import AddNewSyncWindow
 from Common import messagebox
 from Config import Config, UserData
-from SyncManage import check_sync_status
+from SyncManage import check_sync_status, del_sync
 from UI.ui_MainW import Ui_MainWindow
 
 
@@ -112,7 +110,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         pass
 
     def del_sync_func(self):
-        messagebox(self, QMessageBox.Critical, "警告", "你即将取消云存档同步！")
+        req = messagebox(
+            self,
+            QMessageBox.Critical,
+            "警告",
+            "你即将取消云存档同步！存档会从云同步文件夹还原回本地游戏文件夹中！",
+            "yesno",
+        )
+        if req == 1:
+            return
+        # before delet symlink,backup game savedata.
+        game_name = self.gamename_label.text()
+        os.makedirs
+        # delet sync
+        ncd_savepath = self.cloudata_path_label.text()
+        local_savepath = self.savepath_label.text()
+        ncdgame_path = os.path.split(ncd_savepath)[0]
+        result = del_sync(local_savepath, ncdgame_path)
+        if result:
+            messagebox(self, QMessageBox.Information, "成功", "云端文件夹存档已还原回本地游戏文件夹！")
+            # write json file.
+
+        else:
+            messagebox(self, QMessageBox.Critical, "错误", "删除同步链接失败！")
 
     def check_sync_func(self):
         req = messagebox(
